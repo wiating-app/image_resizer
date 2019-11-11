@@ -1,0 +1,4 @@
+boto3
+Pillow
+python-resize-image
+python-dotenv

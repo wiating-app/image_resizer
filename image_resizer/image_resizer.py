@@ -29,12 +29,15 @@ def callback(ch, method, properties, body):
         logging.info(body_string)
         s3_client.download_fileobj(S3_BUCKET, body_string, fp)
         fp_m = tempfile.TemporaryFile()
-        with Image.open(fp) as image:
-            img = resizeimage.resize_contain(image, [385, 385]).convert('RGB')
-            img.save(fp_m, image.format)
-            fp_m.seek(0)
-        s3_client.upload_fileobj(fp_m, S3_BUCKET, file_name + '_m.' + file_extension, ExtraArgs={'ACL': 'public-read', 'ContentType': mimetype})
-        fp_m.close()
-    logging.info(body_string)
+        try:
+            with Image.open(fp) as image:
+                img = resizeimage.resize_contain(image, [385, 385]).convert('RGB')
+                img.save(fp_m, image.format)
+                fp_m.seek(0)
+            s3_client.upload_fileobj(fp_m, S3_BUCKET, file_name + '_m.' + file_extension, ExtraArgs={'ACL': 'public-read', 'ContentType': mimetype})
+            fp_m.close()
+            logging.info(body_string)
+        except IOError: # in case of input file malfunction
+            logging.info("File broken " + body_string)
     ch.basic_ack(delivery_tag = method.delivery_tag)
 

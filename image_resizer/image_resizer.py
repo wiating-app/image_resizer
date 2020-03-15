@@ -45,7 +45,7 @@ class GenericFile:
 
     def resize_image(self):
         with Image.open(self._full_handler) as image:
-            img = resizeimage.resize_contain(image, [385, 385]).convert('RGB')
+            img = resizeimage.resize_thumbnail(image, [385, 385]).convert('RGB')
             img.save(self._thumbnail_handler, image.format)
             self._thumbnail_handler.seek(0)
 

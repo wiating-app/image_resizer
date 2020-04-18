@@ -4,8 +4,6 @@ from PIL import Image
 from resizeimage import resizeimage
 import tempfile
 
-from .__main__ import app
-
 
 
 class GenericFile:

@@ -6,3 +6,4 @@ __author__ = """Dawid Wolski"""
 __email__ = 'merito123@gmail.com'
 __version__ = '0.1.0'
 
+from .image_resizer import resize_image

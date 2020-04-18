@@ -4,6 +4,8 @@ from PIL import Image
 from resizeimage import resizeimage
 import tempfile
 
+from .__main__ import app
+
 
 
 class GenericFile:
@@ -65,3 +67,21 @@ class S3File(GenericFile):
             self.resize_image()
             self._s3_client.upload_fileobj(self._thumbnail_handler, self._bucket, self._thumbnail_name,
                                            ExtraArgs={'ACL': 'public-read', 'ContentType': self._mimetype})
+
+
+@app.task
+def resize_image(body):
+    body_string = body.decode("utf-8")
+    store_property = STORE_PROPERTY.split('//', 1)[1]
+
+    if STORE_PROPERTY.startswith('file://'):
+        thumbnail = LocalFile(body_string=body_string, path=store_property)
+    elif STORE_PROPERTY.startswith('s3://'):
+        thumbnail = S3File(body_string=body_string, bucket=store_property)
+
+    try:
+        thumbnail.get_file()
+        thumbnail.save_thumbnail()
+        logging.info(body_string)
+    except IOError: # in case of input file malfunction
+        logging.info("File broken " + body_string)

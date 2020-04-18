@@ -3,7 +3,7 @@ from dotenv import load_dotenv, find_dotenv
 import logging
 from os import environ as env
 
-from .image_resizer import resize_image as ri
+from . import resize_image as ri
 
 
 ENV_FILE = find_dotenv()

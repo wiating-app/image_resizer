@@ -2,4 +2,4 @@ boto3
 Pillow
 python-resize-image
 python-dotenv
-rabbit_queue @ git+https://github.com/wiating-app/rabbit_queue.git
+celery

@@ -69,7 +69,6 @@ class S3File(GenericFile):
                                            ExtraArgs={'ACL': 'public-read', 'ContentType': self._mimetype})
 
 
-@app.task
 def resize_image(body):
     body_string = body.decode("utf-8")
     store_property = STORE_PROPERTY.split('//', 1)[1]

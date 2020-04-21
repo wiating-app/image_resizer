@@ -84,8 +84,7 @@ class S3File(GenericFile):
 
 
 @celery.task
-def resize_image(body):
-    body_string = body.decode("utf-8")
+def resize_image(body_string):
     store_property = STORE_PROPERTY.split('//', 1)[1]
 
     if STORE_PROPERTY.startswith('file://'):

@@ -18,7 +18,7 @@ STORE_PROPERTY = env.get('S3_BUCKET')
 
 logging.basicConfig(level=logging.INFO)
 
-celery = Celery('image_resizer', broker='amqp://localhost')
+celery = Celery('image_resizer', broker=f"amqp://{env.get('RABBITMQ_HOST', 'localhost')}")
 
 
 

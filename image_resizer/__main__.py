@@ -5,7 +5,7 @@ from os import environ as env
 import boto3
 import os
 from PIL import Image
-from resizeimage import resizeimage
+from resizeimage import imageexceptions, resizeimage
 import tempfile
 
 
@@ -48,7 +48,10 @@ class GenericFile:
 
     def resize_image(self):
         with Image.open(self._full_handler) as image:
-            img = resizeimage.resize_cover(image, [385, 385]).convert('RGB')
+            try:
+                img = resizeimage.resize_cover(image, [385, 385]).convert('RGB')
+            except imageexceptions.ImageSizeError:
+                img = image
             img.save(self._thumbnail_handler, image.format)
             self._thumbnail_handler.seek(0)
 

@@ -1,5 +1,5 @@
 boto3==1.16.15
-Pillow==8.4.0
+Pillow==10.3.0
 python-resize-image==1.1.19
 python-dotenv==0.15.0
 celery==5.0.2
